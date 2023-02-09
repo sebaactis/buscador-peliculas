@@ -1,45 +1,26 @@
-import moviesResults from "../src/moviesResults.json"
+import { Movies } from "./components/Movies";
+import { useMovies } from "./hooks/useMovies";
+
 
 function App() {
 
-  const movies = moviesResults.Search
-  const hasMovies = movies?.length > 0
+  const { movies } = useMovies();
 
   return (
-    <>
+    <div className="page">
       <header>
-
         <h2 className="titulo"> Buscador de peliculas </h2>
-
-        <form className="form">
-          <input className="inputText" type="text" />
-          <button className="btn btn-success" type="button"> Search </button>
+        <form>
+          <input placeholder="Advengers, Spiderman..." type="text" />
+          <button type="submit"> Search </button>
         </form>
       </header >
 
-      <main className="peliculasContenedor">
-        {
-          hasMovies ? (
-            <ul>
-              {
-                movies.map((movie) => {
-                  return (
-                    <li key={movie.imdbID}>
-                      <h3>{movie.Title} </h3>
-                      <p>{movie.Year} </p>
-                      <img src={movie.Poster} alt={movie.Title} />
-                    </li>
-                  )
-                })
-              }
-            </ul>
-          ) :
-            <p> No hay peliculas </p>
-        }
-
+      <main >
+        <Movies movies={movies} />
       </main>
 
-    </>
+    </div>
   );
 }
 

@@ -1,20 +1,23 @@
-body {
-  background-color: grey;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-.titulo {
-  text-align: center;
-}
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center
+};
 
-.form {
+main {
   display: flex;
   justify-content: center;
-  gap: 10px;
-}
+};
 
-.peliculasContenedor {
+form {
   display: flex;
   justify-content: center;
-
-}
+  align-items: center
+};
 
