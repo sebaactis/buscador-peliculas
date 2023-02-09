@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import moviesResults from "../src/moviesResults.json"
 
 function App() {
+
+  const movies = moviesResults.Search
+  const hasMovies = movies?.length > 0
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <header>
+
+        <h2 className="titulo"> Buscador de peliculas </h2>
+
+        <form className="form">
+          <input className="inputText" type="text" />
+          <button className="btn btn-success" type="button"> Search </button>
+        </form>
+      </header >
+
+      <main className="peliculasContenedor">
+        {
+          hasMovies ? (
+            <ul>
+              {
+                movies.map((movie) => {
+                  return (
+                    <li key={movie.imdbID}>
+                      <h3>{movie.Title} </h3>
+                      <p>{movie.Year} </p>
+                      <img src={movie.Poster} alt={movie.Title} />
+                    </li>
+                  )
+                })
+              }
+            </ul>
+          ) :
+            <p> No hay peliculas </p>
+        }
+
+      </main>
+
+    </>
   );
 }
 
