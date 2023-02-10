@@ -1,50 +1,65 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Movies } from "./components/Movies";
 import { useMovies } from "./hooks/useMovies";
 
 
-function App() {
-
-  const { movies } = useMovies();
-  const [query, setQuery] = useState("");
+export const useSearch = () => {
+  const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
+  const isFirstInput = useRef(true)
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(query)
-  }
 
-  const handleChange = (e) => {
-    const newQuery = e.target.value
-    if (newQuery.startsWith(" ")) return
-    setQuery(e.target.value)
-  } 
-  
   useEffect(() => {
 
-    if (query === "") {
+    if (isFirstInput.current) {
+      isFirstInput.current = search === ""
+      return;
+    }
+
+    if (search === "") {
       setError("El campo esta vacio")
       return;
     }
 
-    if (query.length < 3) {
+    if (search.length < 3) {
       setError("El nombre de la pelicula debe tener mas de 3 caracteres")
       return;
     }
 
     setError(null);
 
-  }, [query])
+  }, [search])
+
+  return { search, setSearch, error }
+}
+
+
+function App() {
+
+  const { search, setSearch, error } = useSearch();
+  const { movies, getMovies } = useMovies({ search });
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    getMovies();
+  }
+
+  const handleChange = (e) => {
+    const newSearch = e.target.value
+    if (newSearch.startsWith(" ")) return
+    setSearch(e.target.value)
+  }
+
 
   return (
     <div className="page">
       <header>
         <h2 className="titulo"> Buscador de peliculas </h2>
-        <form onSubmit={handleSubmit}>
-          <input value={query} onChange={handleChange} placeholder="Advengers, Spiderman..." type="text" />
+        <form className="formulario" onSubmit={handleSubmit}>
+          <input value={search} onChange={handleChange} placeholder="Advengers, Spiderman..." type="text" />
           <button type="submit"> Search </button>
         </form>
-        {error && <p style={{color: "red"}}> {error} </p>}
+        {error && <p style={{ color: "red" }}> {error} </p>}
       </header >
 
       <main >
