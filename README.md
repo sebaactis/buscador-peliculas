@@ -1,4 +1,6 @@
-Crea una aplicación para buscar películas
+# Practica de una prueba tenica con REACT:
+
+## Instrucciones
 
 API a usar:
 
